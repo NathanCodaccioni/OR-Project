@@ -1,6 +1,7 @@
 import os
 from reader import read_capacity_matrix, read_capacity_and_cost_matrix, display_matrix
-from min_cost_flow import bellman_ford 
+from min_cost_flow import bellman_ford
+from ford_fulkerson import ford_fulkerson
 
 PROPOSAL_DIR = os.path.join(os.path.dirname(__file__), '..', 'proposals')
 
@@ -14,6 +15,7 @@ def is_min_cost_problem(filepath):
             except ValueError:
                 return False
     return False
+
 
 def main():
     print("==== Project Operation Research ====")
@@ -43,6 +45,11 @@ def main():
                 print("\nDetection: MAXIMAL FLOW problem.")
                 cap = read_capacity_matrix(filepath)
                 display_matrix(cap, "Capacity Matrix")
+
+                print("\nRunning Ford–Fulkerson (Edmonds–Karp):")
+                max_flow = ford_fulkerson(cap, source=0, sink=len(cap)-1)
+                print(f"\nResult: maximum flow = {max_flow}\n")
+
         except Exception as e:
             print(f"❌ Error during the analysis: {e}")
 
